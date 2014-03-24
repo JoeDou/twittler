@@ -7,10 +7,10 @@
   <body>
     <script>
 
-      $(document).ready(function(){
+      function getMsg(){
         var $body = $('body');
-        $body.html('');
-
+        //$body.html('');
+        $('div').remove();
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
@@ -19,9 +19,14 @@
           $tweet.appendTo($body);
           index -= 1;
         }
+      }
 
+      $(document).ready(function(){
+         $('.Update').on('click',getMsg);
       });
 
     </script>
+
+    <button class="Update">Update</button>
   </body>
 </html>
