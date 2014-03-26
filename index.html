@@ -3,27 +3,40 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <LINK href="application.css" rel ="stylesheet" type="text/css">
   </head>
   <body>
     <script>
 
-      function getMsg(){
+      function appendText(query, name, text){
+        var $temp = $('<div class = "'+name+'"></div>');
+        $temp.text(text);
+        $temp.appendTo(query);
+      }
+
+      function getMsg(input){
         var $body = $('body');
-        //$body.html('');
         $('div').remove();
-        var index = streams.home.length - 1;
+        var index = input.length - 1;
         while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          var time =  tweet.created_at.toISOString();
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ('+ time + ')');
+          var tweet = input[index];
+          var $tweet = $('<div class = "box"></div>');
           $tweet.appendTo($body);
+          var $box = $('div').last();
+          appendText($box, 'user', '@'+tweet.user+':');
+          appendText($box, 'message', tweet.message);
+          appendText($box, 'time', tweet.created_at.toISOString());
           index -= 1;
         }
       }
 
       $(document).ready(function(){
-         $('.Update').on('click',getMsg);
+         $('.Update').on('click',function(){getMsg(streams.home)});
+         $('body').on('click', '.user', function() {
+           var user = $(this).text();
+           user = user.slice(1,-1);
+           getMsg(streams.users[user]);
+         });
       });
 
     </script>
